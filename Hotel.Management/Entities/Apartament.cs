@@ -12,7 +12,7 @@
         public BookingStatus Status { get; set; }
         public int BookingId { get; set; }
         public BookingApartament Booking { get; set; }
-
+        public ICollection<BookingHistory> AccomHistories { get; set; }
 
     }
 }
