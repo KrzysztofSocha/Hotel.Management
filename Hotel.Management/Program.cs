@@ -1,4 +1,5 @@
 using Hotel.Management;
+using Hotel.Management.Services.ApartamentService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +11,10 @@ builder.Services.AddDbContext<HotelContext>
                (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IApartamentAppService, ApartamentAppService>();
+builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
-app.UseSwaggerUI();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -22,7 +25,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-app.UseSwagger(x => x.SerializeAsV2 = true);
+app.UseSwagger();
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hotel Management"); });
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

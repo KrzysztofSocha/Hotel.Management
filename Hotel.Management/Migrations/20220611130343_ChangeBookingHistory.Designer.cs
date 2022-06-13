@@ -4,6 +4,7 @@ using Hotel.Management;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Management.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    partial class HotelContextModelSnapshot : ModelSnapshot
+    [Migration("20220611130343_ChangeBookingHistory")]
+    partial class ChangeBookingHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +32,10 @@ namespace Hotel.Management.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("BookingId")
+                    b.Property<int>("Area")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookingId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -44,9 +49,6 @@ namespace Hotel.Management.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PeopleCount")
-                        .HasColumnType("int");
-
                     b.Property<double>("PriceForDay")
                         .HasColumnType("float");
 
@@ -56,8 +58,7 @@ namespace Hotel.Management.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BookingId")
-                        .IsUnique()
-                        .HasFilter("[BookingId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("StatusId");
 
@@ -74,9 +75,6 @@ namespace Hotel.Management.Migrations
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
-
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -200,7 +198,9 @@ namespace Hotel.Management.Migrations
                 {
                     b.HasOne("Hotel.Management.Entities.BookingApartament", "Booking")
                         .WithOne("Apartament")
-                        .HasForeignKey("Hotel.Management.Entities.Apartament", "BookingId");
+                        .HasForeignKey("Hotel.Management.Entities.Apartament", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Hotel.Management.Entities.BookingStatus", "Status")
                         .WithMany()

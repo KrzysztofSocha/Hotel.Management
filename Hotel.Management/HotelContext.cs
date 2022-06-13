@@ -27,7 +27,7 @@ namespace Hotel.Management
              .HasOne(c => c.Address)
              .WithOne(o => o.Client);
             modelBuilder.Entity<Client>().HasKey(x => x.Index);
-            modelBuilder.Entity<Apartament>().HasMany(x => x.AccomHistories).WithOne(x => x.Apartament);
+           
         }
     }
 }
