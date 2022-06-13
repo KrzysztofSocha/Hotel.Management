@@ -67,7 +67,7 @@ namespace Hotel.Management.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Apartaments");
+                    b.ToTable("Apartaments", (string)null);
                 });
 
             modelBuilder.Entity("Hotel.Management.Entities.BookingApartament", b =>
@@ -94,7 +94,7 @@ namespace Hotel.Management.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("Hotel.Management.Entities.BookingHistory", b =>
@@ -123,7 +123,7 @@ namespace Hotel.Management.Migrations
 
                     b.HasIndex("ClientIndex");
 
-                    b.ToTable("BookingHistories");
+                    b.ToTable("BookingHistories", (string)null);
                 });
 
             modelBuilder.Entity("Hotel.Management.Entities.BookingStatus", b =>
@@ -140,7 +140,7 @@ namespace Hotel.Management.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BookingStatuses");
+                    b.ToTable("BookingStatuses", (string)null);
                 });
 
             modelBuilder.Entity("Hotel.Management.Entities.Client", b =>
@@ -174,7 +174,7 @@ namespace Hotel.Management.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.ToTable("CLients");
+                    b.ToTable("CLients", (string)null);
                 });
 
             modelBuilder.Entity("Hotel.Management.Entities.ClientAddress", b =>
@@ -199,7 +199,7 @@ namespace Hotel.Management.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClientAddresses");
+                    b.ToTable("ClientAddresses", (string)null);
                 });
 
             modelBuilder.Entity("Hotel.Management.Entities.Apartament", b =>
