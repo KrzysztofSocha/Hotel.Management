@@ -27,7 +27,8 @@ namespace Hotel.Management
              .HasOne(c => c.Address)
              .WithOne(o => o.Client);
             modelBuilder.Entity<Client>().HasKey(x => x.Index);
-           
+            new DbInitializer(modelBuilder).Seed();
+
         }
     }
 }

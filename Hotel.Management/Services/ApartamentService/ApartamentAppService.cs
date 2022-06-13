@@ -20,7 +20,8 @@ namespace Hotel.Management.Services.ApartamentService
         {
             try
             {
-                var apartament = _mapper.Map<Apartament>(input);
+                var apartament = new Apartament();
+                 apartament = _mapper.Map<Apartament>(input);
                 await _context.Apartaments.AddAsync(apartament);
                 await _context.SaveChangesAsync();
             }
@@ -60,7 +61,7 @@ namespace Hotel.Management.Services.ApartamentService
         public async Task<List<GetFreeApratamentOutput>> GetFreeApratamentsAsync()
         {
            await CheckFreeApartaments();
-           var freeApartaments = await _context.Apartaments.Where(x=>x.StatusId==0 && x.IsDeleted== false).ToListAsync();
+           var freeApartaments = await _context.Apartaments.Where(x=>x.StatusId==1 && x.IsDeleted== false).ToListAsync();
             
             return _mapper.Map<List<GetFreeApratamentOutput>>(freeApartaments);
         }
@@ -83,7 +84,7 @@ namespace Hotel.Management.Services.ApartamentService
                     if (apartament.Booking.EndDate < DateTime.Now)
                     {
                         var history = _mapper.Map<BookingHistory>(apartament);
-                        apartament.StatusId = 0;
+                        apartament.StatusId = 1;
                         apartament.Booking = null;
                         await _context.BookingHistories.AddAsync(history);
                         await _context.SaveChangesAsync();                        

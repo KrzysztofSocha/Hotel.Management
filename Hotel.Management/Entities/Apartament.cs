@@ -22,7 +22,8 @@ namespace Hotel.Management.Entities
         public BookingApartament? Booking { get; set; }
         public Apartament()
         {
-            IsDeleted = false;            
+            IsDeleted = false;
+            StatusId = 1;
         }
        
     }

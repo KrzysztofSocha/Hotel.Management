@@ -21,7 +21,7 @@ namespace Hotel.Management.Services.ApartamentBookingService
             var aparatament = await _context.Apartaments.Include(x => x.Booking).FirstOrDefaultAsync(x => x.Number == apartamentNumber);
             if (aparatament != null && aparatament.Booking != null)
             {
-                aparatament.StatusId = 0;
+                aparatament.StatusId = 1;
                 aparatament.Booking.EndDate = DateTime.Now;
                 var history = _mapper.Map<BookingHistory>(aparatament);
                 aparatament.Booking = null;
@@ -42,6 +42,7 @@ namespace Hotel.Management.Services.ApartamentBookingService
             {
                 if (input.StartDate < input.EndDate)
                 {
+                    apartament.StatusId = 2;
                     apartament.Booking = _mapper.Map<BookingApartament>(input);
                     var bookingDays = input.EndDate.Subtract(input.StartDate).Days;
                     apartament.Booking.Cost = bookingDays * apartament.PriceForDay;

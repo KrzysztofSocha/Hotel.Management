@@ -1,8 +1,43 @@
-﻿@{
+﻿@model IEnumerable<Hotel.Management.Services.ApartamentService.Dto.GetAllApratamentsOutput>
+@{
     ViewData["Title"] = "Home Page";
 }
+<h2>Apratmenty</h2>
+<div>
+    <table class="table">
+        <thead class=" tab-pane">
+            <tr>
+                <th>Numer</th>
+                <th>Opis</th>
+                <th>Ilość miejsc</th>
+                <th>Piętro</th>
+                <th>Cena za dobę</th>
+                <th>Status</th>
+                
+               
+                <th>
+                    <a class="btn btn-outline-success float-right" asp-action="Create">Add visit</a>
+                </th>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Number</td>
+                    <td>@item.Description</td>
+                    <td>@item.PeopleCount</td>
+                    <td>@item.Floor</td>
+                    <td>@item.PriceForDay</td>
+                    <td>@item.Status</td>
+                    <td></td>
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+

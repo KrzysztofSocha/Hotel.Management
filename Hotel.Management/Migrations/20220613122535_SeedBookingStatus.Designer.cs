@@ -4,6 +4,7 @@ using Hotel.Management;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Management.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    partial class HotelContextModelSnapshot : ModelSnapshot
+    [Migration("20220613122535_SeedBookingStatus")]
+    partial class SeedBookingStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,30 +70,6 @@ namespace Hotel.Management.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Apartaments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Apartament prezydencki z widokiem na morze",
-                            Floor = 4,
-                            IsDeleted = false,
-                            Number = "1",
-                            PeopleCount = 5,
-                            PriceForDay = 400.0,
-                            StatusId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Apartament  z widokiem na morze",
-                            Floor = 4,
-                            IsDeleted = false,
-                            Number = "2",
-                            PeopleCount = 3,
-                            PriceForDay = 250.0,
-                            StatusId = 1
-                        });
                 });
 
             modelBuilder.Entity("Hotel.Management.Entities.BookingApartament", b =>
