@@ -1,4 +1,5 @@
 using Hotel.Management;
+using Hotel.Management.Services.ApartamentBookingService;
 using Hotel.Management.Services.ApartamentService;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<HotelContext>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IApartamentAppService, ApartamentAppService>();
+builder.Services.AddScoped<IBookingAppService, BookingAppService>();
 builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 

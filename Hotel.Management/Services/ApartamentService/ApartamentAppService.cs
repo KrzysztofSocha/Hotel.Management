@@ -33,53 +33,35 @@ namespace Hotel.Management.Services.ApartamentService
 
         public async Task DeleteApartamentAsync(int id)
         {
-            var apartamentToDelete = _context.Apartaments.FirstOrDefault(x => x.Id == id);
+            var apartamentToDelete = await _context.Apartaments.FirstOrDefaultAsync(x => x.Id == id);
             if (apartamentToDelete != null)
             {
-                _context.Apartaments.Remove(apartamentToDelete);
+                apartamentToDelete.IsDeleted = true;
+                apartamentToDelete.DeletionTime = DateTime.Now;
                 await _context.SaveChangesAsync();
             }                
             else
                 throw new Exception("Nie istnieje apartament o podanym id");
            
         }
-        //TODO podczas pobierania sprawdzać datę końca wynajmu
+        
         public async Task<List<GetAllApratamentsOutput>> GetAllApratamentsAsync()
         {
-            var apartaments = await _context.Apartaments.Include(x=>x.Status).ToListAsync();
+            await CheckFreeApartaments();
+            var apartaments = await _context.Apartaments
+                .Include(x=>x.Status)
+                .Where(x=>x.IsDeleted ==false)
+                .ToListAsync();
             return _mapper.Map<List<GetAllApratamentsOutput>>(apartaments);
         }
 
-        public async Task<GetApartamentBookingInformation> GetBookingInformationAsync(int id)
-        {
-            var apratament = await _context.Apartaments.Include(x=>x.Booking).FirstOrDefaultAsync(x => x.Id == id);
-            if (apratament != null && apratament.Booking != null)
-                return _mapper.Map<GetApartamentBookingInformation>(apratament.Booking);
-            else
-                throw new Exception("Błąd podczas pobierania informacji o rezerwacji");
-        }
-        //TODO podczas pobierania sprawdzać datę końca wynajmu
+       
+       
         public async Task<List<GetFreeApratamentOutput>> GetFreeApratamentsAsync()
         {
-           var apartaments = await _context.Apartaments.Include(x=>x.Booking).ToListAsync();
-            var freeApartaments = new List<Apartament>();
-            foreach(var apartament in apartaments)
-            {
-                if(apartament.Booking != null)
-                {
-                    if(apartament.Booking.EndDate < DateTime.Now)
-                    {
-                        var history = _mapper.Map<BookingHistory>(apartament);
-                        apartament.StatusId = 0;
-                        apartament.Booking = null;
-                        await _context.BookingHistories.AddAsync(history);
-                        await _context.SaveChangesAsync();
-                        freeApartaments.Add(apartament);
-                    }
-
-                }
-            }
-            freeApartaments.AddRange(apartaments.Where(x => x.StatusId == 0));
+           await CheckFreeApartaments();
+           var freeApartaments = await _context.Apartaments.Where(x=>x.StatusId==0 && x.IsDeleted== false).ToListAsync();
+            
             return _mapper.Map<List<GetFreeApratamentOutput>>(freeApartaments);
         }
 
@@ -89,6 +71,26 @@ namespace Hotel.Management.Services.ApartamentService
             apartamentToUpdate = _mapper.Map<Apartament>(input);
             await _context.SaveChangesAsync();
 
+        }
+        private async Task CheckFreeApartaments()
+        {
+            var apartaments = await _context.Apartaments.Include(x => x.Booking).Where(x=>x.IsDeleted==false).ToListAsync();
+           
+            foreach (var apartament in apartaments)
+            {
+                if (apartament.Booking != null)
+                {
+                    if (apartament.Booking.EndDate < DateTime.Now)
+                    {
+                        var history = _mapper.Map<BookingHistory>(apartament);
+                        apartament.StatusId = 0;
+                        apartament.Booking = null;
+                        await _context.BookingHistories.AddAsync(history);
+                        await _context.SaveChangesAsync();                        
+                    }
+
+                }
+            }
         }
     }
 }

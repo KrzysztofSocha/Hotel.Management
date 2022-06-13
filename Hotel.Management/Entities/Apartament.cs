@@ -10,8 +10,14 @@
         public double PriceForDay { get; set; }
         public int StatusId { get; set; }
         public BookingStatus Status { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? DeletionTime { get; set; }
         public int? BookingId { get; set; }
         public BookingApartament? Booking { get; set; }
+        public Apartament()
+        {
+            IsDeleted = false;            
+        }
        
     }
 }
