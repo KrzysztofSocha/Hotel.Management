@@ -37,12 +37,12 @@ namespace Hotel.Management.Services.ClientService
             return _mapper.Map<List<GetClientOutput>>(clients);
         }
 
-        public async Task<GetClientOutput> GetClientAsync(string email)
+        public async Task<List<GetClientOutput>> SearchClientAsync(string searchString)
         {
-           var client = await _context.CLients.FirstOrDefaultAsync(x=>x.Email==email);
+            var client = await _context.CLients.Where(x => x.Email.Contains(searchString)|| x.FullName.Contains(searchString)).ToListAsync();
             if (client != null)
             {
-                return _mapper.Map<GetClientOutput>(client);
+                return _mapper.Map<List<GetClientOutput>>(client);
             }
             return null;
         }

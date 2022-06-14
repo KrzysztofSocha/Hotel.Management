@@ -1,0 +1,55 @@
+﻿<form asp-controller="Customer" asp-action="Search">
+    <p>
+        Email: <input class="form-control" type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+@model IEnumerable<Hotel.Management.Services.ClientService.Dto.GetClientOutput>
+
+<h2>Klienci</h2>
+<div>
+    <table class="table">
+        <thead class=" tab-pane">
+            <tr>
+                <th>Indeks</th>
+                <th>Imię Nazwisko</th>
+                <th>Adres email</th>
+                <th>Telefon</th>
+                <th>Miasto</th>
+               
+                
+               
+               
+                <th><a class="btn btn-outline-success float-right" asp-action="Create">Dodaj Klienta</a></th>
+
+
+
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            @foreach(var item in Model)
+            {
+                <tr>
+                     <td>@item.Index</td>
+                    <td>@item.FullName</td>
+                    <td>@item.Email</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Address.City</td>
+                    
+                    
+                   
+                        
+                        <td>
+                            <a class="btn btn-link text-secondary float-right" asp-action="Edit" asp-route-id="@item.Index">Edytuj</a>
+                        </td>
+                       
+                                   
+                   
+                    
+                    
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

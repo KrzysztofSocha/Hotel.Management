@@ -1,0 +1,54 @@
+﻿@model Hotel.Management.Services.ApartamentService.Dto.CreateOrUpdateApratamentInput
+<h2>Edycja apartamentu</h2>
+<form method="post">
+	<div class="form-group">
+		<div class="form-row">
+			<div class="col-sm-1 my-1">
+				<label>Numer</label>
+				<input type="text" class="form-control" asp-for="Number" />
+			</div>
+			<div class="col-sm-6 my-1">
+				<label>Opis</label>
+				<input type="text" class="form-control" asp-for="Description" />
+			</div>
+			<div class="col-sm-1 my-1">
+				<label>Cena za dobę</label>
+				<input type="text" class="form-control" asp-for="PriceForDay" />
+			</div>
+
+
+		</div>
+		<div class="form-row">
+			<div class="col-sm-2 my-1">
+				<label>Pojemność w osobach</label>
+				<select class="custom-select form-control" required  asp-for="PeopleCount" >
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+			</select>
+			</div>
+			<div class="col-sm-2 my-1">
+				<label>Piętro</label>
+				<select class="custom-select form-control" required  asp-for="Floor" >
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>					
+			</select>
+			</div>
+		</div>
+		
+
+
+
+
+
+		
+
+
+		
+			<button type="submit" class="btn btn-primary my-1">Zatwierdź dane</button>
+		</div>
+</form>

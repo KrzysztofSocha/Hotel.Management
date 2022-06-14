@@ -31,7 +31,7 @@ namespace Hotel.Management.Services.ApartamentBookingService
                 
         }
 
-        public async Task CreateBooking(CreateOrUpdateBooking input)
+        public async Task CreateBooking(CreateBooking input)
         {
             var apartament = await _context.Apartaments
                 .Include(x=>x.Booking)
@@ -67,7 +67,15 @@ namespace Hotel.Management.Services.ApartamentBookingService
                 throw new Exception("Błąd podczas pobierania informacji o rezerwacji");
         }
 
-        public async Task UpdateBooking(CreateOrUpdateBooking input)
+        public async Task<UpdateBooking> GetBookingToEditAsync(int apartamentId)
+        {
+            var apratament = await _context.Apartaments.Include(x => x.Booking).FirstOrDefaultAsync(x => x.Id == apartamentId);
+            if (apratament != null && apratament.Booking != null)
+                return _mapper.Map<UpdateBooking>(apratament.Booking);
+            else
+                throw new Exception("Błąd podczas pobierania informacji o rezerwacji");
+        }
+        public async Task UpdateBookingAsync(UpdateBooking input)
         {
             var apartament = await _context.Apartaments
                 .Include(x => x.Booking)
@@ -91,4 +99,9 @@ namespace Hotel.Management.Services.ApartamentBookingService
             }
         }
     }
+
+        
+
+        
+    
 }

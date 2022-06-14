@@ -10,7 +10,9 @@ namespace Hotel.Management.Services.ApartamentBookingService.Dto
             CreateMap<BookingApartament, GetApartamentBookingInfo>()
                .ForMember(dest => dest.DateBoking,
                opt => opt.MapFrom(src => src.StartDate.ToString("dd.MM.yyyy") + "-" + src.EndDate.ToString("dd.MM.yyyy")));
-            CreateMap<CreateOrUpdateBooking, BookingApartament>();
+            CreateMap<CreateBooking, BookingApartament>();
+            CreateMap<UpdateBooking, BookingApartament>();
+            CreateMap<BookingApartament, UpdateBooking>();
         }
     }
 }

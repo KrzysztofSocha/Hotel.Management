@@ -20,10 +20,17 @@ namespace Hotel.Management.Services.ApartamentService
         {
             try
             {
-                var apartament = new Apartament();
-                 apartament = _mapper.Map<Apartament>(input);
-                await _context.Apartaments.AddAsync(apartament);
-                await _context.SaveChangesAsync();
+                var isExist= _context.Apartaments.Any(x=>x.Number==input.Number && x.IsDeleted ==false);
+                if (!isExist)
+                {
+                    var apartament = new Apartament();
+                    apartament = _mapper.Map<Apartament>(input);
+                    await _context.Apartaments.AddAsync(apartament);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                    throw new Exception("Apartament o podanym numerze jest już zarejstrowany w systemie");
+               
             }
             catch (Exception ex)
             {
@@ -52,12 +59,22 @@ namespace Hotel.Management.Services.ApartamentService
             var apartaments = await _context.Apartaments
                 .Include(x=>x.Status)
                 .Where(x=>x.IsDeleted ==false)
+                .OrderBy(x=>x.Number)
                 .ToListAsync();
             return _mapper.Map<List<GetAllApratamentsOutput>>(apartaments);
         }
 
-       
-       
+        public async Task<CreateOrUpdateApratamentInput> GetApratamentToEditAsync(int id)
+        {
+            var aparatametToEdit = await _context.Apartaments.FirstOrDefaultAsync(x => x.Id == id && x.StatusId == 1);
+            if (aparatametToEdit != null)
+            {
+                return _mapper.Map<CreateOrUpdateApratamentInput>(aparatametToEdit);
+            }
+            else
+                throw new Exception("Błąd podczas edycji danych o pokoju");
+        }
+
         public async Task<List<GetFreeApratamentOutput>> GetFreeApratamentsAsync()
         {
            await CheckFreeApartaments();
@@ -66,11 +83,13 @@ namespace Hotel.Management.Services.ApartamentService
             return _mapper.Map<List<GetFreeApratamentOutput>>(freeApartaments);
         }
 
-        public async Task UpdateApartamentAsync(CreateOrUpdateApratamentInput input, int id)
+        public async Task UpdateApartamentAsync(CreateOrUpdateApratamentInput input)
         {
-            var apartamentToUpdate = await _context.Apartaments.FirstOrDefaultAsync(x=>x.Id==id);
-            apartamentToUpdate = _mapper.Map<Apartament>(input);
-            await _context.SaveChangesAsync();
+            var apartamentToUpdate = await _context.Apartaments.FirstOrDefaultAsync(x=>x.Id==input.Id);
+            var updatedApartatment = _mapper.Map<Apartament>(input);
+            _context.Entry(apartamentToUpdate).CurrentValues.SetValues(updatedApartatment);
+
+            _context.SaveChanges();
 
         }
         private async Task CheckFreeApartaments()

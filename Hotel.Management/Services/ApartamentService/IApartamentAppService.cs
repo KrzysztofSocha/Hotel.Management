@@ -6,9 +6,9 @@ namespace Hotel.Management.Services.ApartamentService
     {
         Task<List<GetAllApratamentsOutput>> GetAllApratamentsAsync();
         Task<List<GetFreeApratamentOutput>> GetFreeApratamentsAsync();
-       
+        Task<CreateOrUpdateApratamentInput> GetApratamentToEditAsync(int id);
         Task CreateApartamentAsync(CreateOrUpdateApratamentInput input); 
-        Task UpdateApartamentAsync(CreateOrUpdateApratamentInput input, int id);        
+        Task UpdateApartamentAsync(CreateOrUpdateApratamentInput input);        
         Task DeleteApartamentAsync(int id);
         //Task ChangeAparatamentBooking();
     }

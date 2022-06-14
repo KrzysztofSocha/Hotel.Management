@@ -6,7 +6,7 @@ namespace Hotel.Management.Services.ClientService
     public interface IClientAppService
     {
         Task <List<GetClientOutput>> GetClientsAsync ();
-        Task<GetClientOutput> GetClientAsync (string email);
+        Task<List<GetClientOutput>> SearchClientAsync (string email);
         Task CreateClientAsync(CreateOrUpdateClient input);
         Task UpdateClientAsync(CreateOrUpdateClient input, int id);
 
