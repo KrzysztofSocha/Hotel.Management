@@ -16,9 +16,9 @@ namespace Hotel.Management.Services.ApartamentBookingService
             _mapper=mapper;
         }
 
-        public async Task CloseBooking(string apartamentNumber)
+        public async Task CloseBooking(int apartamentId)
         {
-            var aparatament = await _context.Apartaments.Include(x => x.Booking).FirstOrDefaultAsync(x => x.Number == apartamentNumber);
+            var aparatament = await _context.Apartaments.Include(x => x.Booking).FirstOrDefaultAsync(x => x.Id == apartamentId);
             if (aparatament != null && aparatament.Booking != null)
             {
                 aparatament.StatusId = 1;
@@ -58,9 +58,17 @@ namespace Hotel.Management.Services.ApartamentBookingService
                 throw new Exception("Podany apartament jest zarezerwowany");
         }
 
+        public async Task<List<GetBookingHistory>> GetBookingHistory()
+        {
+            var history = await _context.BookingHistories.Include(x => x.Client).ToListAsync();
+            return _mapper.Map<List<GetBookingHistory>>(history);
+        }
+
         public async Task<GetApartamentBookingInfo> GetBookingInformationAsync(int apartamentId)
         {
-            var apratament = await _context.Apartaments.Include(x => x.Booking).FirstOrDefaultAsync(x => x.Id == apartamentId);
+            var apratament = await _context.Apartaments.Include(x => x.Booking)
+                .ThenInclude(x=>x.Client)
+                .FirstOrDefaultAsync(x => x.Id == apartamentId);
             if (apratament != null && apratament.Booking != null)
                 return _mapper.Map<GetApartamentBookingInfo>(apratament.Booking);
             else
@@ -86,9 +94,15 @@ namespace Hotel.Management.Services.ApartamentBookingService
             {
                 if (input.StartDate < input.EndDate)
                 {
-                    apartament.Booking = _mapper.Map<BookingApartament>(input);
+                    var updatedBooking = _mapper.Map<BookingApartament>(input);
+                    //apartament.Booking = _mapper.Map<BookingApartament>(input);
                     var bookingDays = input.EndDate.Subtract(input.StartDate).Days;
-                    apartament.Booking.Cost = bookingDays * apartament.PriceForDay;
+                    updatedBooking.Cost = bookingDays * apartament.PriceForDay;
+                    //apartament.Booking.Cost = bookingDays * apartament.PriceForDay;
+                    
+                    updatedBooking.ClientId = apartament.Booking.ClientId;
+                    updatedBooking.Id = apartament.Booking.Id;
+                    _context.Entry(apartament.Booking).CurrentValues.SetValues(updatedBooking);
                     await _context.SaveChangesAsync();
                 }
                 else

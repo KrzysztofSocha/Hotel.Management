@@ -1,0 +1,51 @@
+﻿@model Hotel.Management.Services.ApartamentBookingService.Dto.UpdateBooking
+@section Scripts
+{
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+			 $("#datepicker2").datepicker({ dateFormat: 'yy-mm-dd' });
+        });
+    </script>
+}
+<h2>Tworzenie rezerwacji</h2>
+<form method="post">
+	<div class="form-group">
+		
+			
+			
+
+
+		
+			
+		
+			<div class="col-sm-2 my-1">
+				<label>Data ropoczęcia pobytu</label>
+				<input type="text" class="form-control" id="datepicker" asp-for="StartDate" value=@Model.StartDate.ToString("yyyy-MM-dd") />
+			</div>
+			<div class="col-sm-2 my-1">
+				<label>Data zakończenia pobytu</label>
+				<input type="text" class="form-control" id="datepicker2" asp-for="EndDate" value=@Model.EndDate.ToString("yyyy-MM-dd") />
+			</div>
+			<label></label>
+			
+
+		
+
+		
+
+
+
+
+
+		
+		<div>
+			<button type="submit" class="btn btn-primary my-1">Zatwierdź dane</button>
+		</div>
+
+
+	</div>
+</form>

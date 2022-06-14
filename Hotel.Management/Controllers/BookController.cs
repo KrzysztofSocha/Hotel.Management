@@ -32,5 +32,34 @@ namespace Hotel.Management.Controllers
             await _bookingService.CreateBooking(input);
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> Info(int id)
+        {
+            var model = await _bookingService.GetBookingInformationAsync(id);
+            return View(model);
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await _bookingService.GetBookingToEditAsync(id);
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, UpdateBooking model)
+        {
+            model.ApratamentId = id;
+            await _bookingService.UpdateBookingAsync(model);
+            return RedirectToAction("Index","Home");
+
+        }
+        public async Task<IActionResult> Close(int id)
+        {
+            await _bookingService.CloseBooking( id);
+            return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> History()
+        {
+            var model = await _bookingService.GetBookingHistory();
+            return View(model);
+        }
     }
 }

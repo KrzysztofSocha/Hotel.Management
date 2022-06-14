@@ -46,9 +46,9 @@
                     }
                     else
                     {
-                        <td class="bg-danger text-white">@item.Status</td>
-                         <td></td>
-                         <td></td>
+                        <td> <a class="btn  btn-secondary float-right text-white" asp-controller="Book" asp-action="Info" asp-route-id="@item.Id">@item.Status</a></td>
+                         <td><a class="btn btn-link text-secondary float-right" asp-controller="Book" asp-action="Edit" asp-route-id="@item.Id">Zmień</a></td>
+                         <td><a class="btn btn-link text-danger float-right" asp-controller="Book" asp-action="Close" asp-route-id="@item.Id">Zakończ</a></td>
                     }                    
                    
                     

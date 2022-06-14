@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Hotel.Management.Services.ApartamentBookingService.Dto.GetBookingHistory>
+
+<h2>Historia rezerwacji</h2>
+<div>
+    <table class="table">
+        <thead class=" tab-pane">
+            <tr>
+                <th>Numer apartamentu</th>
+                <th>Imię i nazwisko</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th>Data rezerwacji</th>
+                <th>Cena pobytu</th>
+               
+                
+               
+               
+                
+
+
+
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            @foreach(var item in Model)
+            {
+                <tr>
+                     <td>@item.ApartamentNumber</td>
+                    <td>@item.ClientName</td>
+                    <td>@item.Email</td>
+                    <td>@item.Phone</td>
+                    <td>@item.DateBoking</td>
+                    <td>@item.Cost</td>
+                    
+                    
+                   
+                        
+                        
+                       
+                                   
+                   
+                    
+                    
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

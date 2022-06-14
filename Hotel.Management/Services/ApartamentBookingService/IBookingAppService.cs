@@ -9,6 +9,7 @@ namespace Hotel.Management.Services.ApartamentBookingService
 
         Task CreateBooking(CreateBooking input);
         Task UpdateBookingAsync(UpdateBooking input);
-        Task CloseBooking(string apartamentNumber);
+        Task CloseBooking(int apartamentId);
+        Task<List<GetBookingHistory>> GetBookingHistory();
     }
 }

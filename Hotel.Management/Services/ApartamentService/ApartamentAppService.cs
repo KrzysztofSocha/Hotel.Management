@@ -78,7 +78,7 @@ namespace Hotel.Management.Services.ApartamentService
         public async Task<List<GetFreeApratamentOutput>> GetFreeApratamentsAsync()
         {
            await CheckFreeApartaments();
-           var freeApartaments = await _context.Apartaments.Where(x=>x.StatusId==1 && x.IsDeleted== false).ToListAsync();
+           var freeApartaments = await _context.Apartaments.Where(x=>x.StatusId==1 && x.IsDeleted== false).OrderBy(x=>x.Number).ToListAsync();
             
             return _mapper.Map<List<GetFreeApratamentOutput>>(freeApartaments);
         }
