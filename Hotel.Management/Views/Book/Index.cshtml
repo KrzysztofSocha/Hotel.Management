@@ -1,1 +1,50 @@
-﻿
+﻿@model IEnumerable<Hotel.Management.Services.ApartamentService.Dto.GetFreeApratamentOutput>
+
+<h2>Wolne apartamenty</h2>
+<div>
+    <table class="table">
+        <thead class=" tab-pane">
+            <tr>
+                <th>Numer</th>
+                <th>Opis</th>
+                <th>Ilość miejsc</th>
+                <th>Piętro</th>
+                <th>Cena za dobę</th>
+               
+                
+               
+               
+                <th></th>
+
+
+
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            @foreach(var item in Model)
+            {
+                <tr>
+                     <td>@item.Number</td>
+                    <td>@item.Description</td>
+                    <td>@item.PeopleCount</td>
+                    <td>@item.Floor</td>
+                    <td>@item.PriceForDay</td>
+                    
+                    
+                   
+                        
+                        <td>
+                            <a class="btn btn-link text-secondary float-right" asp-action="Create" asp-route-id="@item.Id">Rezerwuj</a>
+                        </td>
+                       
+                                   
+                   
+                    
+                    
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
