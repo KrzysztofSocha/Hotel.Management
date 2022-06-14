@@ -11,6 +11,7 @@ namespace Hotel.Management.Services.ClientService.Dto
             CreateMap<AddressDto, ClientAddress>();
             CreateMap< ClientAddress, AddressDto>();
             CreateMap< Client, GetClientOutput>();
+            CreateMap< Client, CreateOrUpdateClient>();
         }
     }
 }

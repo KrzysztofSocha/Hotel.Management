@@ -33,26 +33,36 @@ namespace Hotel.Management.Services.ClientService
 
         public async Task<List<GetClientOutput>> GetClientsAsync()
         {
-            var clients = await _context.CLients.ToListAsync();
+            var clients = await _context.CLients.Include(x=>x.Address).ToListAsync();
             return _mapper.Map<List<GetClientOutput>>(clients);
+        }
+
+        public async Task<CreateOrUpdateClient> GetClientToEditAsync(int id)
+        {
+            var clients = await _context.CLients.Include(x => x.Address).FirstOrDefaultAsync(x=>x.Index==id);
+            return _mapper.Map<CreateOrUpdateClient>(clients);
         }
 
         public async Task<List<GetClientOutput>> SearchClientAsync(string searchString)
         {
-            var client = await _context.CLients.Where(x => x.Email.Contains(searchString)|| x.FullName.Contains(searchString)).ToListAsync();
-            if (client != null)
+            var client = await _context.CLients.Include(x => x.Address).Where(x => x.Email.Contains(searchString)|| x.FullName.Contains(searchString)).ToListAsync();
+            if (client.Count != 0)
             {
                 return _mapper.Map<List<GetClientOutput>>(client);
             }
-            return null;
+            return new List<GetClientOutput>();
         }
 
         public async  Task UpdateClientAsync(CreateOrUpdateClient input, int id)
         {
-            var client = await _context.CLients.FirstOrDefaultAsync(x => x.Index == id);
+            var client = await _context.CLients.Include(x=>x.Address).FirstOrDefaultAsync(x => x.Index == id);
             if(client != null)
             {
-                client = _mapper.Map<Client>(input);
+                var updatedClient = _mapper.Map<Client>(input);
+                updatedClient.Index = client.Index;
+                updatedClient.AddressId=client.AddressId;
+                _context.Entry(client).CurrentValues.SetValues(updatedClient);
+
                 await _context.SaveChangesAsync();
             }
         }

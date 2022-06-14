@@ -10,6 +10,6 @@ namespace Hotel.Management.Services.ApartamentService
         Task CreateApartamentAsync(CreateOrUpdateApratamentInput input); 
         Task UpdateApartamentAsync(CreateOrUpdateApratamentInput input);        
         Task DeleteApartamentAsync(int id);
-        //Task ChangeAparatamentBooking();
+       
     }
 }
