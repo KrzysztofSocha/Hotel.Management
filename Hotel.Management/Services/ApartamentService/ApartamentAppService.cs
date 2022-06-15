@@ -85,11 +85,17 @@ namespace Hotel.Management.Services.ApartamentService
 
         public async Task UpdateApartamentAsync(CreateOrUpdateApratamentInput input)
         {
-            var apartamentToUpdate = await _context.Apartaments.FirstOrDefaultAsync(x=>x.Id==input.Id);
-            var updatedApartatment = _mapper.Map<Apartament>(input);
-            _context.Entry(apartamentToUpdate).CurrentValues.SetValues(updatedApartatment);
+            var isExist = _context.Apartaments.Any(x => x.Number == input.Number && x.IsDeleted == false);
+            if (!isExist)
+            {
+                var apartamentToUpdate = await _context.Apartaments.FirstOrDefaultAsync(x => x.Id == input.Id);
+                var updatedApartatment = _mapper.Map<Apartament>(input);
+                _context.Entry(apartamentToUpdate).CurrentValues.SetValues(updatedApartatment);
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
+            else
+                throw new Exception("Apartament o podanym numerze jest już zarejstrowany w systemie");
 
         }
         private async Task CheckFreeApartaments()

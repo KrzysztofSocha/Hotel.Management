@@ -55,15 +55,23 @@ namespace Hotel.Management.Services.ClientService
 
         public async  Task UpdateClientAsync(CreateOrUpdateClient input, int id)
         {
-            var client = await _context.CLients.Include(x=>x.Address).FirstOrDefaultAsync(x => x.Index == id);
-            if(client != null)
+            var isExist = _context.CLients.Any(x => x.Email == input.Email);
+            if (!isExist)
             {
-                var updatedClient = _mapper.Map<Client>(input);
-                updatedClient.Index = client.Index;
-                updatedClient.AddressId=client.AddressId;
-                _context.Entry(client).CurrentValues.SetValues(updatedClient);
+                var client = await _context.CLients.Include(x => x.Address).FirstOrDefaultAsync(x => x.Index == id);
+                if (client != null)
+                {
+                    var updatedClient = _mapper.Map<Client>(input);
+                    updatedClient.Index = client.Index;
+                    updatedClient.AddressId = client.AddressId;
+                    _context.Entry(client).CurrentValues.SetValues(updatedClient);
 
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                throw new Exception("Client o podanym mailu widnieje w bazie danych");
             }
         }
     }

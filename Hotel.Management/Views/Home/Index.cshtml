@@ -8,11 +8,11 @@
         <thead class=" tab-pane">
             <tr>
                 <th>Numer</th>
-                <th>Opis</th>
+                <th class="text-center">Opis</th>
                 <th>Ilość miejsc</th>
                 <th>Piętro</th>
                 <th>Cena za dobę</th>
-                <th>Status</th>
+                <th class="text-center">Status</th>
                 
                
                 <th>
@@ -36,7 +36,7 @@
                     
                     @if(@item.Status == "Dostępny")
                     {
-                        <td class="bg-success text-white">@item.Status</td>
+                        <td class="bg-success text-white text-center">@item.Status</td>
                         <td>
                             <a class="btn btn-link text-secondary float-right" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a>
                         </td>
@@ -46,7 +46,7 @@
                     }
                     else
                     {
-                        <td> <a class="btn  btn-secondary float-right text-white" asp-controller="Book" asp-action="Info" asp-route-id="@item.Id">@item.Status</a></td>
+                        <td class="bg-secondary text-center"> <a class="btn btn-link btn-secondary  text-white" asp-controller="Book" asp-action="Info" asp-route-id="@item.Id">@item.Status</a></td>
                          <td><a class="btn btn-link text-secondary float-right" asp-controller="Book" asp-action="Edit" asp-route-id="@item.Id">Zmień</a></td>
                          <td><a class="btn btn-link text-danger float-right" asp-controller="Book" asp-action="Close" asp-route-id="@item.Id">Zakończ</a></td>
                     }                    
